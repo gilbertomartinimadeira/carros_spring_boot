@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.carros.domain.Carro;
+import com.carros.domain.dto.CarroDTO;
 import com.carros.services.CarroService;
 
 @RestController
@@ -25,15 +26,16 @@ public class CarrosController {
 	private CarroService service;
 	
 	@GetMapping
-	public ResponseEntity<Iterable<Carro>> get(){
+	public ResponseEntity<List<CarroDTO>> get(){
+		
 		
 		return ResponseEntity.ok(service.getCarros());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Carro> getByid(@PathVariable Long id) {
+	public ResponseEntity<CarroDTO> getByid(@PathVariable Long id) {
 			
-		Optional<Carro> optionalCarro = service.getCarroById(id);
+		Optional<CarroDTO> optionalCarro = service.getCarroById(id);
 		
 		return optionalCarro
 				.map(ResponseEntity::ok)
@@ -50,24 +52,25 @@ public class CarrosController {
 	}
 	
 	@GetMapping("/tipo/{tipo}")
-	public ResponseEntity<List<Carro>> getByTipo(@PathVariable("tipo") String tipo){
-		List<Carro> carros = service.getCarrosByTipo(tipo);
+	public ResponseEntity<List<CarroDTO>> getByTipo(@PathVariable("tipo") String tipo){
+		List<CarroDTO> carros = service.getCarrosByTipo(tipo);
 		
 		return carros.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(carros);
 		
 	}
 	
 	@PostMapping
-	public String post(@RequestBody Carro carro) {
-		Carro carroGravado = service.save(carro);
+	public String post(@RequestBody CarroDTO dto) {
+		Carro carroGravado = service.save(dto);
 		
 		return "Carro salvo com sucesso: " + carroGravado.getId();
 		
 	}
 	
 	@PutMapping("/{id}")
-	public String put(@PathVariable("id") Long id, @RequestBody Carro carro) {
-		Carro carroPersistido = service.update(carro,id);
+	public String put(@PathVariable("id") Long id, @RequestBody CarroDTO dto) {
+		
+		Carro carroPersistido = service.update(dto,id);
 		
 		return "Carro atualizado com sucesso: " + carroPersistido.getId();
 	}

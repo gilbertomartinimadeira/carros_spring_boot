@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +46,13 @@ public class CarrosController {
 		
 		return "Carro salvo com sucesso: " + carroGravado.getId();
 		
+	}
+	
+	@PutMapping("/{id}")
+	public String put(@PathVariable("id") Long id, @RequestBody Carro carro) {
+		Carro carroPersistido = service.update(carro,id);
+		
+		return "Carro atualizado com sucesso: " + carroPersistido.getId();
 	}
 
 }

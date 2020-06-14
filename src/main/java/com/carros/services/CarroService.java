@@ -1,5 +1,6 @@
 package com.carros.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class CarroService {
 		return repository.findById(id);
 	}
 
-	public Iterable<Carro> getCarrosByTipo(String tipo) {
+	public List<Carro> getCarrosByTipo(String tipo) {
 		return repository.findByTipo(tipo);
 	}
 
@@ -65,7 +66,8 @@ public class CarroService {
 		if(!optionalCarro.isPresent()) {
 			throw new RuntimeException("registro não encontrado");
 		}else {		
-			repository.delete(optionalCarro.get());
+			//repository.delete(optionalCarro.get());
+			repository.deleteById(id);
 		}
 	
 	}

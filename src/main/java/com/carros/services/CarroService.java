@@ -57,5 +57,17 @@ public class CarroService {
 			return carroPersistido;
 		}
 	}
+
+	public void delete(Long id) {
+		
+		Optional<Carro> optionalCarro = getCarroById(id);
+		
+		if(!optionalCarro.isPresent()) {
+			throw new RuntimeException("registro não encontrado");
+		}else {		
+			repository.delete(optionalCarro.get());
+		}
+	
+	}
 	
 }
